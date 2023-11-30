@@ -11,8 +11,10 @@ part 'routes_endpoints.dart';
 
 abstract class AppRouter {
   static CustomTransitionPage<dynamic> customTransitionPage(
-          {required BlocProvider child, required BuildContext context}) =>
-      CustomTransitionPage(
+          {required BlocProvider child, required BuildContext context}){
+
+      debugPrint('customTransitionPage: ${child.child}');
+      return CustomTransitionPage(
           child: child,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -21,7 +23,7 @@ abstract class AppRouter {
             );
           },
           transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero);
+          reverseTransitionDuration: Duration.zero);}
 
   static GoRouter get router => GoRouter(
         routes: routes,

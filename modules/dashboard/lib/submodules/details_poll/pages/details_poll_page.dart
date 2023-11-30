@@ -26,6 +26,7 @@ class _DetailsPollPageState extends State<DetailsPollPage> {
 
   @override
   void initState() {
+    debugPrint('DetailsPollPage: $widget');
     poll = widget.poll;
     super.initState();
   }
@@ -35,6 +36,7 @@ class _DetailsPollPageState extends State<DetailsPollPage> {
     return BlocConsumer<DetailsPollBloc, DetailsPollState>(
       bloc: context.read<DetailsPollBloc>(),
       listener: (context, state) {
+        debugPrint('DetailsPollState: $state');
         switch (state.runtimeType) {
           case DetailsPollLoaded:
             poll = (state as DetailsPollLoaded).poll;
@@ -57,12 +59,16 @@ class _DetailsPollPageState extends State<DetailsPollPage> {
             break;
           case PollStatError:
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            SnackBarWidget.errorSnackBar(
-                context, (state as PollStatError).message);
+            //SnackBarWidget.errorSnackBar(
+            //    context, (state as PollStatError).message);
             break;
           case RedirectToEditPoll:
-            context.goNamed(AppRoutesName.createPoll,
-                extra: (state as RedirectToEditPoll).poll);
+            context
+                .pushNamed(AppRoutesName.createPoll,
+                    extra: (state as RedirectToEditPoll).poll)
+                .then((value) => {
+                      if (value as bool) {context.pop(true)} else {}
+                    });
           default:
         }
       },
@@ -268,22 +274,23 @@ class _DetailsPollPageState extends State<DetailsPollPage> {
                                                                       50),
                                                             )
                                                           : Container(
-                                                          alignment: Alignment
-                                                              .center,
-                                                          child: Text(
-                                                              'No data',
-                                                              textAlign:
-                                                                  TextAlign
+                                                              alignment:
+                                                                  Alignment
                                                                       .center,
-                                                              style: AppTextTheme
-                                                                  .kBody1(
-                                                                      color:
-                                                                          AppColors.kBlack)),
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: AppColors
-                                                                  .kLightGrey),
+                                                              child: Text(
+                                                                  'No data',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: AppTextTheme
+                                                                      .kBody1(
+                                                                          color:
+                                                                              AppColors.kBlack)),
+                                                              decoration: BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: AppColors
+                                                                      .kLightGrey),
                                                             )),
                                                   const SizedBox(
                                                     height: 15,

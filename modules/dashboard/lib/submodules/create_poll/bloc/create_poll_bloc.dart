@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:commons/commons.dart';
 import 'package:dashboard/dashboard.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'create_poll_event.dart';
@@ -16,7 +17,7 @@ class CreatePollBloc extends Bloc<CreatePollEvent, CreatePollState> {
         dashboardApiProvider ?? DashboardApiProvider();
 
     on<CreatePollEvent>((event, emit) {
-      // TODO: implement event handler
+      debugPrint('CreatePollEvent: $event');
     });
 
     on<SaveOrCreatePollButtonPressedEvent>((event, emit) async {

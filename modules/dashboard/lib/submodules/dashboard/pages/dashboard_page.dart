@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:commons/commons.dart';
 import 'package:commons_dependencies/commons_dependencies.dart';
 import 'package:core/core.dart';
@@ -22,6 +24,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
+    debugPrint('DashboardPage: ${widget.user}');
     user = widget.user;
     super.initState();
   }
@@ -31,6 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return BlocConsumer<DashboardBloc, DashboardState>(
       bloc: context.read<DashboardBloc>(),
       listener: (context, state) {
+        debugPrint('DashboardState: $state');
         switch (state.runtimeType) {
           case DashboardLoaded:
             polls = (state as DashboardLoaded).polls;
@@ -44,12 +48,25 @@ class _DashboardPageState extends State<DashboardPage> {
                   if (value as bool)
                     {context.read<DashboardBloc>().add(DashboardInitialEvent())}
                   else
-                    {context.read<DashboardBloc>().add(DashboardLoadedEvent(polls: polls ?? []))}
+                    {
+                      context
+                          .read<DashboardBloc>()
+                          .add(DashboardLoadedEvent(polls: polls ?? []))
+                    }
                 });
             break;
           case RedirectToPollDetail:
-            context.goNamed(AppRoutesName.pollDetails,
-                extra: (state as RedirectToPollDetail).poll);
+            context.pushNamed(AppRoutesName.pollDetails,
+                extra: (state as RedirectToPollDetail).poll).then((value) => {
+                  if (value as bool)
+                    {context.read<DashboardBloc>().add(DashboardInitialEvent())}
+                  else
+                    {
+                      context
+                          .read<DashboardBloc>()
+                          .add(DashboardLoadedEvent(polls: polls ?? []))
+                    }
+                });
             break;
           case UserCacheLoaded:
             user = (state as UserCacheLoaded).user;
@@ -58,9 +75,9 @@ class _DashboardPageState extends State<DashboardPage> {
         }
       },
       builder: (context, state) {
-        //if (user == null && state is DashboardInitial) {
-        //  context.read<DashboardBloc>().add(GetUserCachedEvent());
-        //}
+        if (user == null && state is DashboardInitial) {
+          context.read<DashboardBloc>().add(GetUserCachedEvent());
+        }
         if (polls == null && state is DashboardInitial) {
           context.read<DashboardBloc>().add(DashboardInitialEvent());
         }
@@ -261,11 +278,14 @@ class PollCardSkeletonWidget extends StatelessWidget {
               ],
             ),
           ),
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Icon(Icons.arrow_forward_ios),
+              Shimmer.fromColors(
+                  baseColor: AppColors.kGrey,
+                  highlightColor: AppColors.kLightGrey,
+                  child: Icon(Icons.arrow_forward_ios)),
               SkeletonWidget(size: Size(120, 12))
             ],
           )

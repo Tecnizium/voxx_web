@@ -17,9 +17,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         dashboardApiProvider ?? DashboardApiProvider();
 
     on<DashboardEvent>((event, emit) {
-      if (kDebugMode) {
-        print(event);
-      }
+      debugPrint('DashboardEvent: $event');
     });
 
     on<DashboardInitialEvent>(

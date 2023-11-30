@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:commons/commons.dart';
 import 'package:dashboard/dashboard.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'details_poll_event.dart';
@@ -14,9 +15,10 @@ class DetailsPollBloc extends Bloc<DetailsPollEvent, DetailsPollState> {
     CacheProvider _cacheProvider = cacheProvider ?? CacheProvider();
     DashboardApiProvider _dashboardApiProvider =
         dashboardApiProvider ?? DashboardApiProvider();
+      
 
     on<DetailsPollEvent>((event, emit) {
-      // TODO: implement event handler
+      debugPrint('DetailsPollEvent: $event');
     });
 
     on<GetPollDetailsCachedEvent>((event, emit) async {

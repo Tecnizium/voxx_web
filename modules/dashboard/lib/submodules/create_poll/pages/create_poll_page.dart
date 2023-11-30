@@ -27,6 +27,8 @@ class _CreatePollPageState extends State<CreatePollPage> {
 
   @override
   void initState() {
+    debugPrint('CreatePollPage: $widget');
+
     poll = widget.poll;
     if (poll != null) {
       _titleController.text = poll!.title!;
@@ -46,6 +48,7 @@ class _CreatePollPageState extends State<CreatePollPage> {
     return BlocConsumer<CreatePollBloc, CreatePollState>(
       bloc: context.read<CreatePollBloc>(),
       listener: (context, state) {
+        debugPrint('CreatePollState: $state');
         switch (state.runtimeType) {
           case CreatePollLoading:
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -58,10 +61,10 @@ class _CreatePollPageState extends State<CreatePollPage> {
             SnackBarWidget.successSnackBar(context, 'Create poll success');
             break;
           case EditPollSuccess:
-            context.pop();
-            context.pop(true);
+            context.pop();    
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             SnackBarWidget.successSnackBar(context, 'Edit poll success');
+            context.pop(true);
             break;
           case CreatePollError:
             context.pop();
@@ -71,9 +74,9 @@ class _CreatePollPageState extends State<CreatePollPage> {
             break;
           case DeletePollSuccess:
             context.pop();
-            context.pop(true);
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             SnackBarWidget.successSnackBar(context, 'Delete poll success');
+            context.pop(true);
             break;
           case CancelPollSuccess:
             context.pop(false);
