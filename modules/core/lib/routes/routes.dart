@@ -13,7 +13,7 @@ abstract class AppRouter {
   static CustomTransitionPage<dynamic> customTransitionPage(
           {required BlocProvider child, required BuildContext context}){
 
-      debugPrint('customTransitionPage: ${child.child}');
+      debugPrint('CurrentPage: ${child.child}');
       return CustomTransitionPage(
           child: child,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
