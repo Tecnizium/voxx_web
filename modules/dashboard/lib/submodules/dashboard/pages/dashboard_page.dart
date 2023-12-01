@@ -193,7 +193,7 @@ class PollCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: size.width * 0.4,
+            width: size.width * 0.35,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -286,7 +286,7 @@ class PollCardSkeletonWidget extends StatelessWidget {
                   baseColor: AppColors.kGrey,
                   highlightColor: AppColors.kLightGrey,
                   child: Icon(Icons.arrow_forward_ios)),
-              SkeletonWidget(size: Size(120, 12))
+              SkeletonWidget(size: Size(size.width * 0.05, 12))
             ],
           )
         ],
